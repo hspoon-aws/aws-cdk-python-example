@@ -10,8 +10,8 @@ This is an example project for CDK development with Python to deploy VPC, EKS, B
 This project tried to clear up the following uncertainties:
 
 1. How Bastion Host IAM role can assign as a EKS role for control plane access.
-2. How to create EKS cluster specifying KubernetesVersion which is not available in CDK library yet
-3. How to create Elasticache Redis Cluster with Multi-AZ enabled 
+2. How to create EKS cluster with specific Kubernetes version (currently using 1.29)
+3. How to create Elasticache Redis Cluster with Multi-AZ enabled and specific Redis version (currently using 7.1)
 
 ---
 ## Architecture diagram:
@@ -19,6 +19,13 @@ This project tried to clear up the following uncertainties:
 ![Alt text](architecture.png "Target Architecture for the CDK project")
 
 ---
+## Dependencies
+
+This project uses the following dependencies:
+- aws-cdk-lib: 2.126.0
+- constructs: >=10.0.0,<11.0.0
+- pytest: 7.4.3 (for development)
+
 ## Development Guide
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 

@@ -72,10 +72,10 @@ class CdkEksBastionRedisStack(Stack):
         cluster = eks.FargateCluster(self, "MyFargateCluster",
             cluster_name="MyFargateCluster",
             #version=eks.KubernetesVersion.V1_21,
-            version=eks.KubernetesVersion.of('1.23'),
+            version=eks.KubernetesVersion.of('1.29'),
             masters_role=eks_admin_role,
             alb_controller=eks.AlbControllerOptions(
-                version=eks.AlbControllerVersion.V2_4_1
+                version=eks.AlbControllerVersion.V2_7_2
             ),
             vpc=vpc,
             vpc_subnets=[ec2.SubnetSelection(subnet_group_name="application")],
@@ -102,7 +102,7 @@ class CdkEksBastionRedisStack(Stack):
             subnet_selection=ec2.SubnetSelection(subnet_group_name="bastion"),
             security_group=bastion_sg,
             init = ec2.CloudFormationInit.from_elements(
-                ec2.InitCommand.shell_command('curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.23.7/2022-06-29/bin/linux/amd64/kubectl && chmod +x ./kubectl && mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin'),
+                ec2.InitCommand.shell_command('curl -o kubectl https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.0/2024-01-04/bin/linux/amd64/kubectl && chmod +x ./kubectl && mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin'),
                 ec2.InitCommand.shell_command("echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc"),
                 ec2.InitCommand.shell_command('curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp && sudo mv /tmp/eksctl /usr/local/bin')
             #block_devices=[ec2.BlockDevice(
@@ -146,6 +146,7 @@ class CdkEksBastionRedisStack(Stack):
             self,
             id="redis_cluster_multi_az",
             engine="redis",
+            engine_version="7.1",
             cache_node_type="cache.t3.micro",
             replication_group_description="redis with 2 node cluster mode disabled. multi-az enabled",
             num_cache_clusters=2,
