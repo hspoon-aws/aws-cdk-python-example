@@ -1,4 +1,3 @@
-from unittest import removeHandler
 from aws_cdk import (
     # Duration,
     Stack,
